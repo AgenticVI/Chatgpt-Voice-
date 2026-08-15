@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AI Voice Learning Chatbot</title>
+  <meta name="description" content="AI Chatbot with proactive Voice Nudge CTA and interactive voice practice journey." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Ambient Backdrop Glow -->
+  <div class="app-backdrop"></div>
+
+  <!-- Main Container (Centered Mobile Chassis) -->
+  <div class="mobile-wrapper">
+    <div class="mobile-phone-frame">
+      
+      <!-- iOS Status Bar & Dynamic Island -->
+      <header class="status-bar">
+        <span class="status-time" id="status-time">9:41</span>
+        <div class="dynamic-island">
+          <div class="island-camera"></div>
+          <div class="island-sensor"></div>
+        </div>
+        <div class="status-icons">
+          <span>5G</span>
+          <span>100%</span>
+        </div>
+      </header>
+
+      <!-- App Header Bar (Menu, Upgrade, Circle Profile) -->
+      <div class="app-topbar">
+        <button class="topbar-btn" id="btn-menu" title="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <button class="upgrade-pill" id="btn-upgrade">Upgrade</button>
+
+        <button class="circle-target-btn" id="btn-reset" title="Reset to start"></button>
+      </div>
+
+      <!-- ================================================================
+           SCREEN 1 & 2: Chat View (Start -> Query -> AI Result + CTA)
+           ================================================================ -->
+      <main class="view-panel active" id="chat-view">
+        
+        <!-- Welcome Initial State -->
+        <div class="chat-initial-hero" id="initial-hero">
+          <h1 class="hero-heading">What can I help with?</h1>
+          
+          <!-- Topic Chips -->
+          <div class="topic-chips-grid">
+            <button class="topic-chip teal" data-topic="Pronunciation tips" data-query="How can I improve my English pronunciation for job interviews?">
+              Pronunciation tips
+            </button>
+            <button class="topic-chip orange" data-topic="Interview prep" data-query="Can we do an English behavioral interview practice session?">
+              Interview prep
+            </button>
+            <button class="topic-chip purple" data-topic="Presentations" data-query="How do I deliver a confident English presentation intro?">
+              Presentations
+            </button>
+            <button class="topic-chip more" data-topic="More" data-query="Help me practice conversational English fluency">
+              More
+            </button>
+          </div>
+
+          <!-- Suggested Query Bubble -->
+          <div class="preset-question-bubble" id="suggested-prompt-btn">
+            How can I improve my English pronunciation for job interviews?
+          </div>
+        </div>
+
+        <!-- Dynamic Chat Conversation Stream -->
+        <div class="chat-messages-stream" id="chat-messages" style="display: none;">
+          <!-- Injected via JS -->
+        </div>
+
+      </main>
+
+
+      <!-- ================================================================
+           SCREEN 3, 4 & 5: Voice Mode Journey
+           ================================================================ -->
+      <section class="view-panel" id="voice-view">
+        
+        <!-- Context Loaded Pill Badge -->
+        <div class="context-pill-badge" id="voice-context-pill">
+          ✓ Context loaded: Pronunciation practice
+        </div>
+
+        <!-- Hero Glowing Celestial 3D Sky Orb -->
+        <div class="voice-orb-wrapper">
+          <div class="voice-orb-ripple"></div>
+          <div class="voice-orb-ripple delay-1"></div>
+          <canvas class="voice-orb-canvas" id="voice-canvas" width="170" height="170"></canvas>
+        </div>
+
+        <!-- Voice Mode Titles & Status -->
+        <div class="voice-mode-headings" id="voice-headings">
+          <h2 class="voice-mode-title">Voice Mode</h2>
+          <div class="voice-mode-status" id="voice-status-text">
+            Listening... <span class="mic-pulse-icon">🎙</span>
+          </div>
+        </div>
+
+        <!-- Practice Drills Container (Appears when practice starts) -->
+        <div class="voice-practice-cards" id="practice-cards" style="display: none;">
+          
+          <!-- AI Speaking Card -->
+          <div class="drill-card ai-speaking-card" id="ai-speaking-card">
+            <div class="drill-card-header">
+              <div class="drill-badge-label">
+                <span>🔊</span> AI SPEAKING
+              </div>
+            </div>
+            <div class="drill-quote-text" id="drill-quote">
+              "Say after me: <span class="highlight">'The thorough thought was thoughtful'</span>"
+            </div>
+            <div class="waveform-container left-aligned">
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+            </div>
+          </div>
+
+          <!-- User Turn Card -->
+          <div class="drill-card user-turn-card" id="user-turn-card">
+            <div class="drill-card-header">
+              <div class="drill-badge-label">
+                <span>🎙</span> YOUR TURN
+              </div>
+            </div>
+            <div class="drill-user-instruction" id="user-turn-status">
+              Speak the phrase clearly...
+            </div>
+            <div class="metrics-chips-row" id="metrics-chips">
+              <div class="metric-chip clarity" id="metric-clarity">Clarity 87%</div>
+              <div class="metric-chip pace">Pace ✓</div>
+              <div class="metric-chip tone">Tone ✓</div>
+            </div>
+          </div>
+
+          <!-- Voice Practice Action Buttons -->
+          <div class="practice-action-row">
+            <button class="practice-btn ai-btn" id="btn-replay-ai" title="Replay AI Voice">
+              <span>🔊 Hear AI</span>
+            </button>
+            <button class="practice-btn mic-btn" id="btn-speak-now" title="Speak into microphone">
+              <span>🎤 Tap & Speak</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Exit Voice Session Button -->
+        <button class="exit-voice-btn" id="btn-exit-voice">
+          <span>✕ Return to Chat</span>
+        </button>
+
+      </section>
+
+
+      <!-- ================================================================
+           Bottom Input / Control Bar
+           ================================================================ -->
+      <!-- Standard Chat Input Bar -->
+      <footer class="app-bottom-bar" id="chat-bottom-bar">
+        <form class="input-pill-container" id="chat-form">
+          <div class="input-app-icon"></div>
+          <input 
+            type="text" 
+            class="input-real-field" 
+            id="chat-input" 
+            placeholder="Ask anything" 
+            autocomplete="off"
+          />
+          <div class="input-action-icons">
+            <button type="button" id="btn-input-mic" title="Voice Input">🎙</button>
+            <button type="submit" id="btn-input-send" title="Send">➔</button>
+          </div>
+        </form>
+      </footer>
+
+      <!-- Voice Mode Transformed Bottom Equalizer Bar -->
+      <footer class="app-bottom-bar" id="voice-bottom-bar" style="display: none;">
+        <div class="voice-bottom-controls">
+          <div class="input-app-icon"></div>
+          <div class="waveform-container">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+          <div class="input-action-icons">
+            <button type="button" id="btn-voice-mic-toggle" title="Mic status">🎙</button>
+            <button type="button" id="btn-voice-audio-toggle" title="Speaker status">🔊</button>
+          </div>
+        </div>
+      </footer>
+
+      <!-- iOS Home Indicator -->
+      <div class="home-indicator-bar"></div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/orb.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
